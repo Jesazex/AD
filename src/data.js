@@ -68,7 +68,9 @@ export const products = [
         before: asset('images/belka-photo.jpg'),
         after: asset('images/belka-carve.jpg'),
         beforePosition: 'center 30%',
-        afterPosition: 'center',
+        afterPosition: 'center 42%',
+        afterScale: 1.78,
+        afterOrigin: '50% 40%',
       },
       {
         name: 'Ермак',

@@ -26,23 +26,19 @@ export default function QrPanel() {
       <button
         type="button"
         className="qr-card"
+        aria-label="Купить"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
       >
-        {open ? (
-          <>
-            {image ? <img src={image} alt="QR-код для заказа" /> : <span className="qr-wait">Код</span>}
-            <span className="qr-caption">Наведите камеру</span>
-            <span className="qr-close">Закрыть</span>
-          </>
-        ) : (
-          <>
-            <QrGlyph />
-            <span className="qr-title">Заказать</span>
-            <span className="qr-caption">Узнать подробнее</span>
-          </>
-        )}
+        <QrGlyph />
+        <span>Купить</span>
       </button>
+      {open && (
+        <div className="qr-pop">
+          {image ? <img src={image} alt="QR-код для заказа" /> : <span className="qr-wait">Код</span>}
+          <span className="qr-caption">Наведите камеру</span>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 
-export default function Compare({ pair }) {
+const Compare = forwardRef(function Compare({ pair }, ref) {
   const rootRef = useRef(null)
   const [pos, setPos] = useState(54)
   const [size, setSize] = useState({ width: 0, height: 0 })
@@ -18,17 +18,14 @@ export default function Compare({ pair }) {
     return () => observer.disconnect()
   }, [])
 
-  function setFromEvent(event) {
-    const rect = rootRef.current.getBoundingClientRect()
-    const next = ((event.clientX - rect.left) / rect.width) * 100
-    setPos(Math.min(88, Math.max(12, next)))
-  }
-
-  function onPointerDown(event) {
-    event.stopPropagation()
-    event.currentTarget.setPointerCapture(event.pointerId)
-    setFromEvent(event)
-  }
+  useImperativeHandle(ref, () => ({
+    slide(clientX) {
+      const rect = rootRef.current?.getBoundingClientRect()
+      if (!rect?.width) return
+      const next = ((clientX - rect.left) / rect.width) * 100
+      setPos(Math.min(100, Math.max(0, next)))
+    },
+  }))
 
   return (
     <div
@@ -37,23 +34,23 @@ export default function Compare({ pair }) {
       role="slider"
       tabIndex={0}
       aria-label="Сравнение фото и резьбы"
-      aria-valuemin={12}
-      aria-valuemax={88}
+      aria-valuemin={0}
+      aria-valuemax={100}
       aria-valuenow={Math.round(pos)}
-      onPointerDown={onPointerDown}
-      onPointerMove={(event) => {
-        if (event.currentTarget.hasPointerCapture(event.pointerId)) setFromEvent(event)
-      }}
       onKeyDown={(event) => {
-        if (event.key === 'ArrowLeft') setPos((value) => Math.max(12, value - 4))
-        if (event.key === 'ArrowRight') setPos((value) => Math.min(88, value + 4))
+        if (event.key === 'ArrowLeft') setPos((value) => Math.max(0, value - 4))
+        if (event.key === 'ArrowRight') setPos((value) => Math.min(100, value + 4))
       }}
     >
       <img
         src={pair.after}
         alt=""
         draggable="false"
-        style={{ objectPosition: pair.afterPosition }}
+        style={{
+          objectPosition: pair.afterPosition,
+          transform: pair.afterScale ? `scale(${pair.afterScale})` : undefined,
+          transformOrigin: pair.afterOrigin,
+        }}
       />
       <div className="compare-clip" style={{ width: `${pos}%` }}>
         <img
@@ -72,8 +69,8 @@ export default function Compare({ pair }) {
         <span />
         <span />
       </div>
-      <span className="compare-tag left">Фото</span>
-      <span className="compare-tag right">Резьба</span>
     </div>
   )
-}
+})
+
+export default Compare
