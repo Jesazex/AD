@@ -2,8 +2,10 @@
   --ink: #243044;
   --muted: #5c6e84;
   --gold: #a68456;
-  --btn: 56px;
-  --frame-w: calc(100vw - (var(--btn) + 36px) * 2);
+  --side-inset: 1vw;
+  --side-gap: 3.5vw;
+  --btn: 15vw;
+  --frame-w: calc(100vw - (var(--btn) + var(--side-inset) + var(--side-gap)) * 2);
   --frame-h: 50vh;
   --frame-radius: 28px;
   --gap-ratio: 0.9;
@@ -251,11 +253,11 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: clamp(8px, 0.7vw, 16px);
 }
 
-.rail-left { left: 14px; }
-.rail-right { right: 14px; }
+.rail-left { left: var(--side-inset); }
+.rail-right { right: var(--side-inset); }
 
 .thumb,
 .pair-btn,
@@ -271,8 +273,8 @@ button:focus-visible {
   height: var(--btn);
   flex: none;
   padding: 0;
-  border-radius: 12px;
-  border: 3px solid white;
+  border-radius: calc(var(--btn) * 0.16);
+  border: max(3px, 0.28vw) solid white;
   overflow: hidden;
   background: white;
   box-shadow: 0 10px 20px rgba(36, 58, 88, 0.14);
@@ -310,21 +312,21 @@ button:focus-visible {
   height: var(--btn);
   min-height: var(--btn);
   flex: none;
-  border-radius: 12px;
+  border-radius: calc(var(--btn) * 0.16);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1px;
+  gap: 2px;
 }
 
 .tool-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 38%;
+  height: 38%;
 }
 
 .tool-btn span {
-  font-size: 10px;
+  font-size: clamp(12px, 1.5vw, 22px);
   font-weight: 700;
   letter-spacing: 0.03em;
 }
@@ -368,7 +370,7 @@ button:focus-visible {
   min-height: var(--btn);
   padding: 4px 2px;
   border: 0;
-  border-radius: 12px;
+  border-radius: calc(var(--btn) * 0.16);
   background: #1b2736;
   color: white;
   box-shadow: 0 10px 22px rgba(20, 32, 50, 0.22);
@@ -380,12 +382,12 @@ button:focus-visible {
 }
 
 .qr-glyph {
-  width: 18px;
-  height: 18px;
+  width: 34%;
+  height: 34%;
 }
 
 .qr-card > span {
-  font-size: 10px;
+  font-size: clamp(12px, 1.45vw, 20px);
   font-weight: 700;
   letter-spacing: 0.01em;
 }
@@ -711,7 +713,6 @@ button:focus-visible {
   .meta h1 { font-size: clamp(28px, 4.4vh, 40px); }
   .pager { padding-bottom: 0; min-height: 28px; }
   :root {
-    --btn: 48px;
     --frame-h: 46vh;
     --peek-top: 64px;
     --peek-bottom: 52px;
