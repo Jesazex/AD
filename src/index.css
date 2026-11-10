@@ -2,10 +2,9 @@
   --ink: #243044;
   --muted: #5c6e84;
   --gold: #a68456;
-  --side-inset: 1vw;
-  --side-gap: 3.5vw;
-  --btn: 15vw;
-  --frame-w: calc(100vw - (var(--btn) + var(--side-inset) + var(--side-gap)) * 2);
+  --btn: 12vw;
+  --side-gap: 2.5vw;
+  --frame-w: calc(100vw - (var(--btn) + var(--side-gap) * 2) * 2);
   --frame-h: 50vh;
   --frame-radius: 28px;
   --gap-ratio: 0.9;
@@ -256,8 +255,8 @@ button:focus-visible {
   gap: clamp(8px, 0.7vw, 16px);
 }
 
-.rail-left { left: var(--side-inset); }
-.rail-right { right: var(--side-inset); }
+.rail-left { left: var(--side-gap); }
+.rail-right { right: var(--side-gap); }
 
 .thumb,
 .pair-btn,
