@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { asset, products } from '../data.js'
+import { ATTRACT_VIDEO, asset, products } from '../data.js'
 import Seal from './Seal.jsx'
 
 const INTRO_SOURCES = [asset('intro.mp4'), asset('intro.webm')]
@@ -27,10 +27,11 @@ async function findIntroVideo() {
 }
 
 export default function Splash({ attract, onEnter }) {
-  const [video, setVideo] = useState(undefined)
+  const [video, setVideo] = useState(attract ? ATTRACT_VIDEO : undefined)
   const [failed, setFailed] = useState(false)
 
   useEffect(() => {
+    if (attract) return undefined
     let cancelled = false
     findIntroVideo().then((src) => {
       if (!cancelled) setVideo(src)
@@ -38,7 +39,7 @@ export default function Splash({ attract, onEnter }) {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [attract])
 
   if (video && !failed) {
     return <VideoSplash src={video} attract={attract} onEnter={onEnter} onFail={() => setFailed(true)} />
@@ -53,7 +54,7 @@ export default function Splash({ attract, onEnter }) {
 
 function VideoSplash({ src, attract, onEnter, onFail }) {
   return (
-    <section className="splash splash-video" onClick={onEnter}>
+    <section className={`splash splash-video${attract ? ' is-attract' : ''}`} onClick={onEnter}>
       <video
         src={src}
         autoPlay
@@ -67,7 +68,7 @@ function VideoSplash({ src, attract, onEnter, onFail }) {
       />
       <div className="splash-shade" />
       <button type="button" className="enter-btn" onClick={onEnter}>
-        В каталог
+        {attract ? 'Коснитесь экрана' : 'В каталог'}
       </button>
     </section>
   )

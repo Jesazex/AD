@@ -5,6 +5,8 @@ export function asset(path) {
   return `${import.meta.env.BASE_URL}${String(path).replace(/^\//, '')}`
 }
 
+export const ATTRACT_VIDEO = asset('dom_v_dereve.mp4')
+
 export const products = [
   {
     id: 'icon',

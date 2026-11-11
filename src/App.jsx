@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import Catalog from './components/Catalog.jsx'
 import Splash from './components/Splash.jsx'
+import { ATTRACT_VIDEO } from './data.js'
 
-const IDLE_MS = 150000
+const IDLE_MS = 30000
 
 export default function App() {
   const [screen, setScreen] = useState('intro')
@@ -11,6 +12,19 @@ export default function App() {
     const block = (event) => event.preventDefault()
     document.addEventListener('contextmenu', block)
     return () => document.removeEventListener('contextmenu', block)
+  }, [])
+
+  useEffect(() => {
+    const preload = document.createElement('video')
+    preload.preload = 'auto'
+    preload.muted = true
+    preload.playsInline = true
+    preload.src = ATTRACT_VIDEO
+    preload.load()
+    return () => {
+      preload.removeAttribute('src')
+      preload.load()
+    }
   }, [])
 
   useEffect(() => {
