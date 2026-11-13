@@ -1,25 +1,40 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import QRCode from 'qrcode'
-import { ORDER_URL } from '../data.js'
+import { QR_LINKS } from '../data.js'
 
 export default function QrPanel() {
   const [open, setOpen] = useState(false)
-  const [image, setImage] = useState('')
+  const [images, setImages] = useState({})
 
   useEffect(() => {
     let cancelled = false
-    QRCode.toDataURL(ORDER_URL, {
-      width: 360,
-      margin: 1,
-      errorCorrectionLevel: 'M',
-      color: { dark: '#142033', light: '#ffffff' },
-    }).then((url) => {
-      if (!cancelled) setImage(url)
+    Promise.all(
+      QR_LINKS.map(async (item) => {
+        const url = await QRCode.toDataURL(item.url, {
+          width: 520,
+          margin: 1,
+          errorCorrectionLevel: 'M',
+          color: { dark: '#000000', light: '#ffffff' },
+        })
+        return [item.id, url]
+      }),
+    ).then((entries) => {
+      if (!cancelled) setImages(Object.fromEntries(entries))
     })
     return () => {
       cancelled = true
     }
   }, [])
+
+  useEffect(() => {
+    if (!open) return undefined
+    const onKey = (event) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
 
   return (
     <div className={open ? 'qr-dock open' : 'qr-dock'}>
@@ -33,12 +48,33 @@ export default function QrPanel() {
         <QrGlyph />
         <span>Купить</span>
       </button>
-      {open && (
-        <div className="qr-pop">
-          {image ? <img src={image} alt="QR-код для заказа" /> : <span className="qr-wait">Код</span>}
-          <span className="qr-caption">Наведите камеру</span>
-        </div>
-      )}
+      {open &&
+        createPortal(
+          <>
+            <button type="button" className="qr-scrim" aria-label="Закрыть" onClick={() => setOpen(false)} />
+            <div className="qr-pop" role="dialog" aria-label="Где купить">
+              {QR_LINKS.map((item) => (
+                <figure className="qr-item" key={item.id}>
+                  <figcaption>{item.caption}</figcaption>
+                  <div className="qr-plate">
+                    <div className={item.center ? 'qr-plate-head is-center' : 'qr-plate-head'}>
+                      {item.brand ? <span>{item.brand}</span> : null}
+                      <span>{item.title}</span>
+                    </div>
+                    <div className="qr-plate-code">
+                      {images[item.id] ? (
+                        <img src={images[item.id]} alt="" />
+                      ) : (
+                        <span className="qr-wait">Код</span>
+                      )}
+                    </div>
+                  </div>
+                </figure>
+              ))}
+            </div>
+          </>,
+          document.body,
+        )}
     </div>
   )
 }

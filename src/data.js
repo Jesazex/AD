@@ -1,5 +1,26 @@
-export const ORDER_URL =
-  'https://vk.ru/market/product/ikona-svyatogo-nikolaya-35-sm-kh-25-sm-230757817-13999896'
+export const QR_LINKS = [
+  {
+    id: 'dishes',
+    url: 'https://vk.com/domvdereve_dnr',
+    caption: 'ВКонтакте: Деревянная посуда',
+    brand: 'ДОМ В ДЕРЕВЕ',
+    title: 'Посуда',
+  },
+  {
+    id: 'max',
+    url: 'https://vk.com/away.php?to=https%3A%2F%2Fmax.ru%2Fjoin%2FeW40EqU76bs4P2hZj-B5haCTFXm0wDEqF79jvyQkXXM&utf=1',
+    caption: 'MAX:',
+    title: 'MAX',
+    center: true,
+  },
+  {
+    id: 'furniture',
+    url: 'https://vk.com/domvdereve_mebel',
+    caption: 'ВКонтакте: Иконы, фотопортреты, гербы и декор из дерева',
+    brand: 'ДОМ В ДЕРЕВЕ',
+    title: 'Мебель',
+  },
+]
 
 export function asset(path) {
   return `${import.meta.env.BASE_URL}${String(path).replace(/^\//, '')}`

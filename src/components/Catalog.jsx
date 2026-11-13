@@ -83,7 +83,7 @@ export default function Catalog() {
     }
     let locked = false
     const onWheel = (event) => {
-      if (event.target.closest('button, a, .topbar, .model-view')) return
+      if (event.target.closest('button, a, .topbar, .model-view, .qr-pop, .qr-scrim')) return
       event.preventDefault()
       if (locked || Math.abs(event.deltaY) < 12) return
       locked = true
@@ -102,7 +102,7 @@ export default function Catalog() {
 
   function onPointerDown(event) {
     if (event.button != null && event.button !== 0) return
-    if (event.target.closest('button, a, .topbar, .model-view')) return
+    if (event.target.closest('button, a, .topbar, .model-view, .qr-pop, .qr-scrim')) return
     dragRef.current = {
       x: event.clientX,
       y: event.clientY,

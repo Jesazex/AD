@@ -391,34 +391,103 @@ button:focus-visible {
   letter-spacing: 0.01em;
 }
 
+.qr-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
 .qr-pop {
-  position: absolute;
-  left: calc(100% + 12px);
-  bottom: 0;
-  width: 210px;
-  padding: 12px;
-  border-radius: 18px;
-  background: #1b2736;
-  color: white;
-  box-shadow: 0 18px 40px rgba(20, 32, 50, 0.28);
+  position: fixed;
+  z-index: 71;
+  top: 50%;
+  left: calc(var(--side-gap) + var(--btn) + 16px);
+  transform: translateY(-50%);
+  width: min(300px, 42vw, calc((100dvh - 250px) / 2.55));
+  max-height: calc(100dvh - 16px);
+  overflow: auto;
+  padding: 14px 12px 16px;
+  border-radius: 22px;
+  background: #ffffff;
+  color: #111111;
+  box-shadow: 0 22px 50px rgba(20, 32, 50, 0.28);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.qr-item {
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
 }
 
-.qr-caption,
-.qr-wait {
-  font-size: 12px;
-  letter-spacing: 0.01em;
-  opacity: 0.78;
+.qr-item figcaption {
+  margin: 0;
+  max-width: 16em;
+  text-align: center;
+  font-size: clamp(12px, 1.15vw, 15px);
+  font-weight: 600;
+  line-height: 1.25;
+  color: #111111;
 }
 
-.qr-pop img {
-  width: 186px;
-  height: 186px;
+.qr-plate {
+  width: 100%;
+  padding: 7px 7px 7px;
+  border-radius: 18px;
+  background: #111111;
+  color: #ffffff;
+}
+
+.qr-plate-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 22px;
+  padding: 1px 8px 6px;
+  font-size: clamp(10px, 1.05vw, 13px);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.qr-plate-head.is-center {
+  justify-content: center;
+  min-height: 26px;
+  padding-bottom: 7px;
+  font-size: clamp(16px, 1.7vw, 22px);
+  letter-spacing: 0.14em;
+}
+
+.qr-plate-code {
+  border: 5px solid #111111;
   border-radius: 12px;
-  background: white;
+  background: #ffffff;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.qr-plate-code img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #ffffff;
+}
+
+.qr-wait {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  color: #111111;
+  font-size: 12px;
 }
 
 .pager {
